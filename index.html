@@ -141,6 +141,9 @@
                     case 'CPT':
                         ShowCIPCard()
                         break;
+                    case 'CIP':
+                        ShowDAPCard()
+                        break;
                     default:
                         ShowEXWCard();
                         previousButton.style.display = 'none'; // Hide the Previous button
@@ -175,6 +178,9 @@
                         break;
                     case 'CIP':
                         ShowCPTCard()
+                        break;
+                    case 'DAP':
+                        ShowCIPCard()
                         break;
                     default:
                         ShowEXWCard();
@@ -222,7 +228,14 @@
             flashcardFront.innerHTML = '<div class="flashcard-content"><p>CIP</p><p>(Carriage insurance paid to)</p></div>';
             flashcardBack.innerHTML = '<div class="flashcard-content"><p>CPT</p><p>+ Assurance</p></div>';
         }
-
+        function ShowDAPCard()
+        {
+            const flashcardFront = document.querySelector('.flashcard-front');
+            const flashcardBack = document.querySelector('.flashcard-back');
+            flashcardFront.setAttribute('data-code', 'DAP');
+            flashcardFront.innerHTML = '<div class="flashcard-content"><p>DAP</p><p>(Delivered at place)</p></div>';
+            flashcardBack.innerHTML = '<div class="flashcard-content"><p>CIP</p><p>+ THC (selon Liner-Terms</p><p>+ post-acheminement jusqu'au lieu désigné par l'Incoterm</p></div>';
+        }
         // Initially hide the Previous button if the flashcard front text is EXW
         document.addEventListener('DOMContentLoaded', () => {
             const flashcardFront = document.querySelector('.flashcard-front');
