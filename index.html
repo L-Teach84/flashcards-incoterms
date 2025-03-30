@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tree Flashcard</title>
+    <title>Incoterms Flashcards</title>
     <style>
         body {
             display: flex;
@@ -94,8 +94,11 @@
 <body>
     <div class="flashcard" onclick="flipCard(this)">
         <div class="flashcard-inner">
-            <div class="flashcard-front">
-                EXW
+            <div class="flashcard-front" data-code="EXW">
+                <div class="flashcard-content">
+                    <p>EXW</p>
+                    <p>(Ex-Works)</p>
+                </div>
             </div>
             <div class="flashcard-back">
                 <div class="flashcard-content">
@@ -118,7 +121,6 @@
 
         function goToNextFlashcard() {
             const flashcardFront = document.querySelector('.flashcard-front');
-            const flashcardBack = document.querySelector('.flashcard-back');
             const previousButton = document.querySelector('.previous-button');
             const flashcard = document.querySelector('.flashcard');
             const flashcardInner = document.querySelector('.flashcard-inner');
@@ -127,20 +129,20 @@
             flashcard.classList.remove('is-flipped');
 
             // Update the text content immediately
-            if (flashcardFront && flashcardBack) {
-                switch (flashcardFront.textContent.trim()) {
+            if (flashcardFront) {
+                switch (flashcardFront.getAttribute('data-code').trim()) {
                     case 'EXW':
-                        flashcardFront.textContent = 'Car';
-                        flashcardBack.innerHTML = '<div class="flashcard-content"><p>Voiture</p><p>+ Auto</p></div>';
+                        ShowFCACard()
                         previousButton.style.display = 'inline-block'; // Show the Previous button
                         break;
-                    case 'Car':
-                        flashcardFront.textContent = 'vélo';
-                        flashcardBack.innerHTML = '<div class="flashcard-content"><p>Bicyclette</p></div>';
+                    case 'FCA':
+                        ShowCPTCard()
+                        break;
+                    case 'CPT':
+                        ShowCIPCard()
                         break;
                     default:
-                        flashcardFront.textContent = 'EXW';
-                        flashcardBack.innerHTML = '<div class="flashcard-content"><p>Marchandise</p><p>+ Emballage</p></div>';
+                        ShowEXWCard();
                         previousButton.style.display = 'none'; // Hide the Previous button
                 }
             }
@@ -154,7 +156,6 @@
 
         function goToPreviousFlashcard() {
             const flashcardFront = document.querySelector('.flashcard-front');
-            const flashcardBack = document.querySelector('.flashcard-back');
             const previousButton = document.querySelector('.previous-button');
             const flashcard = document.querySelector('.flashcard');
             const flashcardInner = document.querySelector('.flashcard-inner');
@@ -163,20 +164,20 @@
             flashcard.classList.remove('is-flipped');
 
             // Update the text content immediately
-            if (flashcardFront && flashcardBack) {
-                switch (flashcardFront.textContent.trim()) {
-                    case 'Car':
-                        flashcardFront.textContent = 'EXW';
-                        flashcardBack.innerHTML = '<div class="flashcard-content"><p>Marchandise</p><p>+ Emballage</p></div>';
+            if (flashcardFront) {
+                switch (flashcardFront.getAttribute('data-code').trim()) {
+                    case 'FCA':
+                        ShowEXWCard();
                         previousButton.style.display = 'none'; // Hide the Previous button
                         break;
-                    case 'vélo':
-                        flashcardFront.textContent = 'Car';
-                        flashcardBack.innerHTML = '<div class="flashcard-content"><p>Voiture</p><p>+ Auto</p></div>';
+                    case 'CPT':
+                        ShowFCACard()
+                        break;
+                    case 'CIP':
+                        ShowCPTCard()
                         break;
                     default:
-                        flashcardFront.textContent = 'EXW';
-                        flashcardBack.innerHTML = '<div class="flashcard-content"><p>Marchandise</p><p>+ Emballage</p></div>';
+                        ShowEXWCard();
                         previousButton.style.display = 'none'; // Hide the Previous button
                 }
             }
@@ -187,12 +188,47 @@
             }, 300); // Delay to allow the transition to be applied
         }
 
+        function ShowEXWCard()
+        {
+            const flashcardFront = document.querySelector('.flashcard-front');
+            const flashcardBack = document.querySelector('.flashcard-back');
+            flashcardFront.setAttribute('data-code', 'EXW');
+            flashcardFront.innerHTML = '<div class="flashcard-content"><p>EXW</p><p>(Ex-Works)</p></div>';
+            flashcardBack.innerHTML = '<div class="flashcard-content"><p>Marchandise</p><p>+ Emballage</p></div>';
+        }
+
+        function ShowFCACard()
+        {
+            const flashcardFront = document.querySelector('.flashcard-front');
+            const flashcardBack = document.querySelector('.flashcard-back');
+            flashcardFront.setAttribute('data-code', 'FCA');
+            flashcardFront.innerHTML = '<div class="flashcard-content"><p>FCA</p><p>(Free Carrier)</p></div>';
+            flashcardBack.innerHTML = '<div class="flashcard-content"><p>EXW</p><p>+ Douane export</p><p>+ Préacheminement</p></div>';
+        }
+
+        function ShowCPTCard()
+        {
+            const flashcardFront = document.querySelector('.flashcard-front');
+            const flashcardBack = document.querySelector('.flashcard-back');
+            flashcardFront.setAttribute('data-code', 'CPT');
+            flashcardFront.innerHTML = '<div class="flashcard-content"><p>CPT</p><p>(Carriage Paid to)</p></div>';
+            flashcardBack.innerHTML = '<div class="flashcard-content"><p>FCA</p><p>+ Transport principal (fret de base + surcharges)</p></div>';
+        }
+        function ShowCIPCard()
+        {
+            const flashcardFront = document.querySelector('.flashcard-front');
+            const flashcardBack = document.querySelector('.flashcard-back');
+            flashcardFront.setAttribute('data-code', 'CIP');
+            flashcardFront.innerHTML = '<div class="flashcard-content"><p>CIP</p><p>(Carriage insurance paid to)</p></div>';
+            flashcardBack.innerHTML = '<div class="flashcard-content"><p>CPT</p><p>+ Assurance</p></div>';
+        }
+
         // Initially hide the Previous button if the flashcard front text is EXW
         document.addEventListener('DOMContentLoaded', () => {
             const flashcardFront = document.querySelector('.flashcard-front');
             const previousButton = document.querySelector('.previous-button');
 
-            if (flashcardFront.textContent.trim() === 'EXW') {
+            if (flashcardFront.getAttribute('data-code').trim() === 'EXW') {
                 previousButton.style.display = 'none';
             }
         });
