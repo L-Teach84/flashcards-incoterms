@@ -144,8 +144,11 @@
                     case 'CIP':
                         ShowDAPCard()
                         break;
-                    case 'DAP:
+                    case 'DAP':
                         ShowDPUCard()
+                        break;
+                    case 'DPU':
+                        ShowDDPCard()
                         break;
                     default:
                         ShowEXWCard();
@@ -187,6 +190,9 @@
                         break;
                     case 'DPU':
                         ShowDAPCard()
+                        break;
+                    case 'DDP':
+                        ShowDPUCard()
                         break;
                     default:
                         ShowEXWCard();
@@ -240,7 +246,7 @@
             const flashcardBack = document.querySelector('.flashcard-back');
             flashcardFront.setAttribute('data-code', 'DAP');
             flashcardFront.innerHTML = '<div class="flashcard-content"><p>DAP</p><p>(Delivered at place)</p></div>';
-            flashcardBack.innerHTML = '<div class="flashcard-content"><p>CIP</p><p>+ THC (selon Liner-Terms</p><p>+ post-acheminement jusqu'au lieu désigné par l'Incoterm</p></div>';
+            flashcardBack.innerHTML = '<div class="flashcard-content"><p>CIP</p><p>+ THC (selon Liner-Terms</p><p>+ post-acheminement</p></div>';
         }
         function ShowDPUCard()
         {
@@ -249,6 +255,14 @@
             flashcardFront.setAttribute('data-code', 'DPU');
             flashcardFront.innerHTML = '<div class="flashcard-content"><p>DPU</p><p>(Delivered at place unloaded)</p></div>';
             flashcardBack.innerHTML = '<div class="flashcard-content"><p>DAP</p><p>+ Déchargement usine acheteur</p></div>';
+        }
+        function ShowDDPCard()
+        {
+            const flashcardFront = document.querySelector('.flashcard-front');
+            const flashcardBack = document.querySelector('.flashcard-back');
+            flashcardFront.setAttribute('data-code', 'DDP');
+            flashcardFront.innerHTML = '<div class="flashcard-content"><p>DDP</p><p>(Delivered duty paid)</p></div>';
+            flashcardBack.innerHTML = '<div class="flashcard-content"><p>DAP</p><p>+ Liquidation douanière</p><p>+ Honoraires agrée en douane (HAD)</p><p>+ TVA sur HAD</p></div>';
         }
         // Initially hide the Previous button if the flashcard front text is EXW
         document.addEventListener('DOMContentLoaded', () => {
