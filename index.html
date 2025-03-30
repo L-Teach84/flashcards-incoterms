@@ -49,6 +49,7 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
             line-height: 160%;
+            font-size: 24px;
         }
 
         .flashcard-front {
@@ -59,7 +60,6 @@
         .flashcard-back {
             background-color: #ffdc16;
             color: rgb(0, 0, 0);
-            font-size: 24px;
             transform: rotateY(180deg);
             display: flex;
             flex-direction: column;
@@ -110,8 +110,8 @@
     </div>
 
     <div class="button-container">
-        <button class="previous-button" onclick="goToPreviousFlashcard()">Previous Flashcard</button>
-        <button class="next-button" onclick="goToNextFlashcard()">Next Flashcard</button>
+        <button class="previous-button" onclick="goToPreviousFlashcard()">Retour</button>
+        <button class="next-button" onclick="goToNextFlashcard()">Suivant</button>
     </div>
 
     <script>
@@ -133,7 +133,6 @@
                 switch (flashcardFront.getAttribute('data-code').trim()) {
                     case 'EXW':
                         ShowFCACard()
-                        previousButton.style.display = 'inline-block'; // Show the Previous button
                         break;
                     case 'FCA':
                         ShowCPTCard()
@@ -150,9 +149,10 @@
                     case 'DPU':
                         ShowDDPCard()
                         break;
-                    default:
-                        ShowEXWCard();
-                        previousButton.style.display = 'none'; // Hide the Previous button
+                    case 'DDP':
+                        ShowEXWCard()
+                        break;
+              
                 }
             }
 
@@ -175,9 +175,11 @@
             // Update the text content immediately
             if (flashcardFront) {
                 switch (flashcardFront.getAttribute('data-code').trim()) {
+                    case 'EXW':
+                        ShowDDPCard();
+                        break;
                     case 'FCA':
                         ShowEXWCard();
-                        previousButton.style.display = 'none'; // Hide the Previous button
                         break;
                     case 'CPT':
                         ShowFCACard()
@@ -194,9 +196,8 @@
                     case 'DDP':
                         ShowDPUCard()
                         break;
-                    default:
-                        ShowEXWCard();
-                        previousButton.style.display = 'none'; // Hide the Previous button
+                    
+                        
                 }
             }
 
@@ -264,15 +265,7 @@
             flashcardFront.innerHTML = '<div class="flashcard-content"><p>DDP</p><p>(Delivered duty paid)</p></div>';
             flashcardBack.innerHTML = '<div class="flashcard-content"><p>DAP</p><p>+ Liquidation douanière</p><p>+ Honoraires d\'agréé en douane (HAD)</p><p>+ TVA sur HAD</p></div>';
         }
-        // Initially hide the Previous button if the flashcard front text is EXW
-        document.addEventListener('DOMContentLoaded', () => {
-            const flashcardFront = document.querySelector('.flashcard-front');
-            const previousButton = document.querySelector('.previous-button');
 
-            if (flashcardFront.getAttribute('data-code').trim() === 'EXW') {
-                previousButton.style.display = 'none';
-            }
-        });
     </script>
 </body>
 </html>
